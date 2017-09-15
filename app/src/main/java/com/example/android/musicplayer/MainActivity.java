@@ -6,17 +6,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import static android.widget.Toast.makeText;
 
 public class MainActivity extends AppCompatActivity {
 
     private MediaPlayer mediaPlayer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Creates the MediapPlayer that will play track_1
+        //Creates the MediaPlayer that will play track_1
         mediaPlayer = MediaPlayer.create(this, R.raw.track_1);
 
         //Initialize variable with id of play button
@@ -27,6 +31,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mediaPlayer.start();
+                // Set OnCompletion Listener. Check to see if the audio resource has finished playing
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        // Make a toast when song is complete
+                        Toast toast = Toast.makeText(getApplicationContext(), "I'm Done.", Toast.LENGTH_LONG);
+                        toast.show();
+            }
+        });
+
+
             }
         });
 
@@ -53,3 +68,4 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 }
+
